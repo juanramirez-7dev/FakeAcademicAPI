@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Api-Academica.API/Api-Academica.API.csproj" />
+  <Project Path="Api-Academica.DataAccess/Api-Academica.DataAccess.csproj" />
+  <Project Path="Api-Academica.Domain/Api-Academica.Domain.csproj" />
+</Solution>
