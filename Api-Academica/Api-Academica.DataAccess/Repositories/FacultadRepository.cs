@@ -54,5 +54,7 @@ namespace Api_Academica.DataAccess.Repositories
         {
             return await _context.Facultades.FirstOrDefaultAsync(e => e.Nombre == name);
         }
+
+      
     }
 }

@@ -13,6 +13,8 @@ namespace Api_Academica.DataAccess.Context
         }
 
         public DbSet<Facultad> Facultades { get; set; }
+
+        public DbSet<Programa> Programas { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -28,6 +30,35 @@ namespace Api_Academica.DataAccess.Context
                 entity.Property(e => e.Estado)
                     .HasMaxLength(20);
             });
-        }
+
+            modelBuilder.Entity<Programa>(entity =>
+            {
+                entity.HasKey(e => e.ProgramaId);
+                entity.Property(e => e.Codigo)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.Nombre)
+                   .IsRequired()
+                   .HasMaxLength(150);
+                entity.Property(e => e.Nivel)
+                   .IsRequired()
+                   .HasMaxLength(30);
+                entity.Property(e => e.CreditosTotales)
+                   .IsRequired();
+                entity.Property(e => e.Semestres)
+                 .IsRequired();
+                entity.HasOne(p => p.Facultad).
+                WithMany(f => f.Programas).
+                HasForeignKey(p => p.FacultadId).
+                OnDelete(DeleteBehavior.Restrict);
+
+
+
+            });
+        
+    }
+        
+
+        
     }
 }

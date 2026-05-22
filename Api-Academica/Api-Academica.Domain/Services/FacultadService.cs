@@ -12,10 +12,14 @@ namespace Api_Academica.Domain.Services
     public class FacultadService:IFacultadService
     {
         private readonly IFacultadRepository _repository;
-        public FacultadService(IFacultadRepository repository)
+        private readonly IProgramaRepository _programaRepository;
+        public FacultadService(IFacultadRepository repository,IProgramaRepository programaRepository)
         {
             _repository = repository;
+            _programaRepository = programaRepository;
         }
+
+        
         public async Task<IEnumerable<Facultad>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
@@ -64,7 +68,14 @@ namespace Api_Academica.Domain.Services
             {
                 throw new InvalidOperationException($"No se puede borrar una facultad activa");
             }
+            var programas = await _programaRepository.GetByFacultadIdAsync(facultad.Id);
+      
+            if (programas.Any())
+            {
+                throw new InvalidOperationException($"No se puede borrar una facultad con programas existentes");
+            }
             await _repository.DeleteAsync(id);
+            
         }
 
         public async Task UpdateStateAsync(int id,EstadoFacultad estado)

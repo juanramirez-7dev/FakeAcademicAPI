@@ -14,8 +14,10 @@ options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 // services
 builder.Services.AddScoped<IFacultadService, FacultadService>();
+builder.Services.AddScoped<IProgramaService, ProgramaService>();
 // repositories
 builder.Services.AddScoped<IFacultadRepository,FacultadRepository>();
+builder.Services.AddScoped<IProgramaRepository, ProgramaRepository>();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -11,5 +11,6 @@ namespace Api_Academica.Domain.Entities
         public string Codigo { get; set; } = string.Empty;
         public string Nombre { get; set; } = string.Empty;
         public EstadoFacultad Estado { get; set; } = EstadoFacultad.Activo;
+        public ICollection<Programa> Programas { get; set; }=new List<Programa>();
     }
 }
