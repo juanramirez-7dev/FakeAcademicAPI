@@ -16,9 +16,11 @@ options.UseSqlServer(
 builder.Services.AddScoped<IFacultadService, FacultadService>();
 builder.Services.AddScoped<IProgramaService, ProgramaService>();
 builder.Services.AddScoped<IEstudianteService,EstudianteService>();
+builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
 // repositories
 builder.Services.AddScoped<IFacultadRepository,FacultadRepository>();
 builder.Services.AddScoped<IProgramaRepository, ProgramaRepository>();
+builder.Services.AddScoped<IPeriodoAcademicoRepository, PeriodoAcademicoRepository>();
 builder.Services.AddScoped<IEstudianteRepository, EstudianteRepository>();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

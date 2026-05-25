@@ -17,6 +17,8 @@ namespace Api_Academica.DataAccess.Context
         public DbSet<Programa> Programas { get; set; }
 
         public DbSet<Estudiante> Estudiantes { get; set; }
+
+        public DbSet<PeriodoAcademico> PeriodosAcademicos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -85,6 +87,8 @@ namespace Api_Academica.DataAccess.Context
                 entity.Property(e => e.FechaIngreso)
                    .IsRequired()
                    .HasColumnType("date");
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20);
                 entity.HasOne(e => e.Programa)
                    .WithMany(p => p.Estudiantes)
                    .HasForeignKey(e => e.ProgramaId)
@@ -94,6 +98,25 @@ namespace Api_Academica.DataAccess.Context
 
 
             });
+
+            modelBuilder.Entity<PeriodoAcademico>(entity =>
+            {
+                entity.HasKey(e => e.PeriodoId);
+                entity.Property(e => e.Anio)
+                   .IsRequired();
+                entity.Property(e => e.Semestre)
+                   .IsRequired();
+                entity.Property(e => e.FechaInicio)
+                   .IsRequired()
+                   .HasColumnType("date");
+                entity.Property(e => e.FechaFin)
+                   .IsRequired()
+                   .HasColumnType("date");
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20);
+            });
+
+
 
         }
         

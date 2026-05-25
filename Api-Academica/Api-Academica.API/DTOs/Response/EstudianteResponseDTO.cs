@@ -14,6 +14,6 @@ namespace Api_Academica.API.DTOs.Response
         public string CorreoInstitucional { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public DateOnly FechaIngreso { get; set; }
-        public EstadoAcademicoEstudiante Estado { get; set; } = EstadoAcademicoEstudiante.Activo;
+        public EstadoAcademicoEstudiante Estado { get; set; }
     }
 }
