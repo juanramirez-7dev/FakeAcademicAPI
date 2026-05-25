@@ -142,7 +142,11 @@ namespace Api_Academica.API.Controllers
             {
                 return NotFound(ex.Message);
             }
-            
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
 

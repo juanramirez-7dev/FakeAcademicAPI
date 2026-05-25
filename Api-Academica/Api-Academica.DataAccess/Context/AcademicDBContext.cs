@@ -15,6 +15,8 @@ namespace Api_Academica.DataAccess.Context
         public DbSet<Facultad> Facultades { get; set; }
 
         public DbSet<Programa> Programas { get; set; }
+
+        public DbSet<Estudiante> Estudiantes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -55,8 +57,45 @@ namespace Api_Academica.DataAccess.Context
 
 
             });
-        
-    }
+
+            modelBuilder.Entity<Estudiante>(entity =>
+            {
+                entity.HasKey(e => e.EstudianteId);
+                entity.Property(e => e.CodigoEstudiantil)
+                    .IsRequired()
+                    .HasMaxLength(30);
+                entity.Property(e => e.TipoDocumento)
+                   .IsRequired()
+                   .HasMaxLength(10);
+                entity.Property(e => e.NumeroDocumento)
+                   .IsRequired()
+                   .HasMaxLength(30);
+                entity.Property(e => e.Nombres)
+                   .IsRequired()
+                   .HasMaxLength(100);
+                entity.Property(e => e.Apellidos)
+                   .IsRequired()
+                   .HasMaxLength(100);
+                entity.Property(e => e.CorreoInstitucional)
+                   .IsRequired()
+                   .HasMaxLength(120);
+                entity.Property(e => e.Telefono)
+                   .IsRequired()
+                   .HasMaxLength(30);
+                entity.Property(e => e.FechaIngreso)
+                   .IsRequired()
+                   .HasColumnType("date");
+                entity.HasOne(e => e.Programa)
+                   .WithMany(p => p.Estudiantes)
+                   .HasForeignKey(e => e.ProgramaId)
+                   .OnDelete(DeleteBehavior.Restrict);
+                    
+
+
+
+            });
+
+        }
         
 
         

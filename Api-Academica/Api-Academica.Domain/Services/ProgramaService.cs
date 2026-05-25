@@ -12,10 +12,11 @@ namespace Api_Academica.Domain.Services
        
     {
         private readonly IProgramaRepository _repository;
-
-        public ProgramaService(IProgramaRepository repository)
+        private readonly IEstudianteRepository _estudianteRepository;
+        public ProgramaService(IProgramaRepository repository, IEstudianteRepository estudianteRepository)
         {
             _repository = repository;
+            _estudianteRepository= estudianteRepository;
         }
 
         public async Task<IEnumerable<Programa>> GetAllAsync()
@@ -49,7 +50,12 @@ namespace Api_Academica.Domain.Services
             {
                 throw new KeyNotFoundException($"No se encontro un programa con el id: {id}");
             }
-           
+            var estudiantes = await _estudianteRepository.GetByProgramaIdAsync(programa.ProgramaId);
+
+            if (estudiantes.Any())
+            {
+                throw new InvalidOperationException($"No se puede borrar un programa con estudiantes existentes");
+            }
             await _repository.DeleteAsync(id);
         }
         public async Task UpdateAsync(Programa entity, int id)

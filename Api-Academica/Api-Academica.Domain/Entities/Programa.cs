@@ -16,6 +16,7 @@ namespace Api_Academica.Domain.Entities
         public int CreditosTotales { get; set; }
         public int Semestres { get; set; }
         public Facultad Facultad { get; set; } = null!;
-       
+        public ICollection<Estudiante> Estudiantes { get; set; } = new List<Estudiante>();
+
     }
 }

@@ -4,6 +4,7 @@ using Api_Academica.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_Academica.DataAccess.Migrations
 {
     [DbContext(typeof(AcademicDBContext))]
-    partial class AcademicDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260525162847_EstudianteYPrograma")]
+    partial class EstudianteYPrograma
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
