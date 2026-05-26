@@ -17,11 +17,14 @@ builder.Services.AddScoped<IFacultadService, FacultadService>();
 builder.Services.AddScoped<IProgramaService, ProgramaService>();
 builder.Services.AddScoped<IEstudianteService,EstudianteService>();
 builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
+builder.Services.AddScoped<IMatriculaService, MatriculaService>();
+
 // repositories
 builder.Services.AddScoped<IFacultadRepository,FacultadRepository>();
 builder.Services.AddScoped<IProgramaRepository, ProgramaRepository>();
 builder.Services.AddScoped<IPeriodoAcademicoRepository, PeriodoAcademicoRepository>();
 builder.Services.AddScoped<IEstudianteRepository, EstudianteRepository>();
+builder.Services.AddScoped<IMatriculaRepository, MatriculaRepository>();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

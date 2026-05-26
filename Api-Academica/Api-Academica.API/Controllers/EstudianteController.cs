@@ -168,6 +168,7 @@ namespace Api_Academica.API.Controllers
                 return BadRequest(ex.Message);
             }
 
+
         }
 
         [HttpPatch("{id}/estado")]

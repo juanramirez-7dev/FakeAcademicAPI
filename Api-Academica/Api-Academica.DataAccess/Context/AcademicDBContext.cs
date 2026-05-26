@@ -19,6 +19,9 @@ namespace Api_Academica.DataAccess.Context
         public DbSet<Estudiante> Estudiantes { get; set; }
 
         public DbSet<PeriodoAcademico> PeriodosAcademicos { get; set; }
+
+        public DbSet<Matricula> Matriculas { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -114,6 +117,32 @@ namespace Api_Academica.DataAccess.Context
                    .HasColumnType("date");
                 entity.Property(e => e.Estado)
                     .HasMaxLength(20);
+            });
+
+
+
+            modelBuilder.Entity<Matricula>(entity =>
+            {
+                entity.HasKey(e => e.MatriculaId);
+                entity.HasIndex(e => new
+                {
+                    e.EstudianteId,
+                    e.PeriodoId
+                }).IsUnique();
+                entity.Property(e => e.FechaMatricula)
+                   .IsRequired()
+                   .HasColumnType("date");
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20);
+                entity.HasOne(e => e.Estudiante)
+                   .WithMany(p => p.Matriculas)
+                   .HasForeignKey(e => e.EstudianteId)
+                   .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(e => e.Periodo)
+                   .WithMany(p => p.Matriculas)
+                   .HasForeignKey(e => e.PeriodoId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
             });
 
 

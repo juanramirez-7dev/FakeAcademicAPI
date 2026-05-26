@@ -14,7 +14,7 @@ namespace Api_Academica.Domain.Entities
         public DateOnly FechaFin { get; set; }
         public EstadoPeriodoAcademico Estado { get; set; } = EstadoPeriodoAcademico.Abierto;
 
-
+        public ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 
     }
 }

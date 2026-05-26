@@ -16,5 +16,7 @@ namespace Api_Academica.Domain.Entities
         public DateOnly FechaIngreso { get; set; }
         public EstadoAcademicoEstudiante Estado { get; set; } = EstadoAcademicoEstudiante.Activo;
         public Programa Programa { get; set; } = null!;
+
+        public ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
     }
 }

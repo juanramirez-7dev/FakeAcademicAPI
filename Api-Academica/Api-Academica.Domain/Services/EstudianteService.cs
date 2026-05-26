@@ -11,10 +11,12 @@ namespace Api_Academica.Domain.Services
     public class EstudianteService:IEstudianteService
     {
         private readonly IEstudianteRepository _repository;
+        private readonly IMatriculaRepository _matriculaRepository;
 
-        public EstudianteService(IEstudianteRepository repository)
+        public EstudianteService(IEstudianteRepository repository,IMatriculaRepository matriculaRepository)
         {
             _repository = repository;
+            _matriculaRepository = matriculaRepository;
         }
 
         public async Task<IEnumerable<Estudiante>> GetAllAsync()
@@ -48,6 +50,12 @@ namespace Api_Academica.Domain.Services
             {
                 throw new InvalidOperationException($"No se puede borrar un estudiante activo");
             }
+            var matriculas = await _matriculaRepository.GetByEstudianteIdAsync(estudiante.EstudianteId);
+
+            if (matriculas.Any())
+            {
+                throw new InvalidOperationException($"No se puede borrar un estudiante con matriculas existentes");
+            }
             await _repository.DeleteAsync(id);
         }
         public async Task UpdateAsync(Estudiante entity, int id)
@@ -77,7 +85,7 @@ namespace Api_Academica.Domain.Services
             }
             if (estudiante.Estado == estado)
             {
-                throw new InvalidOperationException($"La facultad ya se encuentra con el estado {estado}");
+                throw new InvalidOperationException($"El estudiante ya se encuentra con el estado {estado}");
             }
             estudiante.Estado = estado;
             await _repository.UpdateAsync(estudiante);
