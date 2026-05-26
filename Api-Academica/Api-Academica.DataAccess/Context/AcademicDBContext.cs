@@ -22,6 +22,8 @@ namespace Api_Academica.DataAccess.Context
 
         public DbSet<Matricula> Matriculas { get; set; }
 
+        public DbSet<PlanEstudio> PlanesEstudio { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -143,6 +145,25 @@ namespace Api_Academica.DataAccess.Context
                    .HasForeignKey(e => e.PeriodoId)
                    .OnDelete(DeleteBehavior.Restrict);
 
+            });
+
+            modelBuilder.Entity<PlanEstudio>(entity =>
+            {
+                entity.HasKey(e => e.PlanId);
+                entity.Property(e => e.Version)
+                    .IsRequired()
+                    .HasMaxLength(20);
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20);
+                entity.HasIndex(e => new
+                {
+                    e.ProgramaId,
+                    e.Version
+                }).IsUnique();
+                entity.HasOne(e => e.Programa)
+        .WithMany(p => p.PlanesEstudio)
+        .HasForeignKey(e => e.ProgramaId)
+        .OnDelete(DeleteBehavior.Restrict);
             });
 
 

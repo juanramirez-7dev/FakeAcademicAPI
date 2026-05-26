@@ -44,7 +44,7 @@ namespace Api_Academica.Domain.Services
             Matricula? matricula = await _repository.GetByIdAsync(id);
             if (matricula == null)
             {
-                throw new KeyNotFoundException($"No se encontro un periodo acádemico con el id:{id}");
+                throw new KeyNotFoundException($"No se encontro una matricula con el id:{id}");
             }
             await _repository.UpdateAsync(matricula);
         }

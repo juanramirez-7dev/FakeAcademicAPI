@@ -18,5 +18,7 @@ namespace Api_Academica.Domain.Entities
         public Facultad Facultad { get; set; } = null!;
         public ICollection<Estudiante> Estudiantes { get; set; } = new List<Estudiante>();
 
+        public ICollection<PlanEstudio> PlanesEstudio { get; set; } = new List<PlanEstudio>();
+
     }
 }

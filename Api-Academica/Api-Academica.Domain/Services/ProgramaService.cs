@@ -13,10 +13,12 @@ namespace Api_Academica.Domain.Services
     {
         private readonly IProgramaRepository _repository;
         private readonly IEstudianteRepository _estudianteRepository;
-        public ProgramaService(IProgramaRepository repository, IEstudianteRepository estudianteRepository)
+        private readonly IPlanEstudioRepository _planestudioRepository;   
+        public ProgramaService(IProgramaRepository repository, IEstudianteRepository estudianteRepository, IPlanEstudioRepository planestudioRepository )
         {
             _repository = repository;
-            _estudianteRepository= estudianteRepository;
+            _estudianteRepository = estudianteRepository;
+            _planestudioRepository = planestudioRepository;
         }
 
         public async Task<IEnumerable<Programa>> GetAllAsync()
@@ -56,6 +58,13 @@ namespace Api_Academica.Domain.Services
             {
                 throw new InvalidOperationException($"No se puede borrar un programa con estudiantes existentes");
             }
+            var planEstudios = await _planestudioRepository.GetByProgramaIdAsync(programa.ProgramaId);
+
+            if (planEstudios.Any())
+            {
+                throw new InvalidOperationException($"No se puede borrar un programa con planes de estudio existentes");
+            }
+
             await _repository.DeleteAsync(id);
         }
         public async Task UpdateAsync(Programa entity, int id)
