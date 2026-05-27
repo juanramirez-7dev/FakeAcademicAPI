@@ -12,5 +12,6 @@ namespace Api_Academica.Domain.Entities
         public string Version { get; set; } = string.Empty;
         public EstadoPlanEstudio Estado { get; set; } = EstadoPlanEstudio.Activo;
         public Programa Programa { get; set; } = null!;
+        public ICollection<Asignatura> Asignaturas { get; set; } = new List<Asignatura>();
     }
 }
