@@ -12,11 +12,14 @@ namespace Api_Academica.Domain.Services
     {
         private readonly IEstudianteRepository _repository;
         private readonly IMatriculaRepository _matriculaRepository;
+        private readonly IHistorialAcademicoRepository _historialAcademicoRepository;
 
-        public EstudianteService(IEstudianteRepository repository,IMatriculaRepository matriculaRepository)
+        public EstudianteService(IEstudianteRepository repository,IMatriculaRepository matriculaRepository,
+            IHistorialAcademicoRepository historialAcademicoRepository)
         {
             _repository = repository;
             _matriculaRepository = matriculaRepository;
+            _historialAcademicoRepository = historialAcademicoRepository;
         }
 
         public async Task<IEnumerable<Estudiante>> GetAllAsync()
@@ -55,6 +58,12 @@ namespace Api_Academica.Domain.Services
             if (matriculas.Any())
             {
                 throw new InvalidOperationException($"No se puede borrar un estudiante con matriculas existentes");
+            }
+            var historialAcademicos  = await _historialAcademicoRepository.GetByEstudianteIdAsync(estudiante.EstudianteId);
+
+            if (historialAcademicos.Any())
+            {
+                throw new InvalidOperationException($"No se puede borrar un estudiante con historial académico");
             }
             await _repository.DeleteAsync(id);
         }

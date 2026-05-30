@@ -19,7 +19,8 @@ builder.Services.AddScoped<IEstudianteService,EstudianteService>();
 builder.Services.AddScoped<IPeriodoAcademicoService, PeriodoAcademicoService>();
 builder.Services.AddScoped<IMatriculaService, MatriculaService>();
 builder.Services.AddScoped<IPlanEstudioService, PlanEstudioService>();
-
+builder.Services.AddScoped<IAsignaturaService, AsignaturaService>();
+builder.Services.AddScoped<IHistorialAcademicoService, HistorialAcademicoService>();
 // repositories
 builder.Services.AddScoped<IFacultadRepository,FacultadRepository>();
 builder.Services.AddScoped<IProgramaRepository, ProgramaRepository>();
@@ -27,6 +28,8 @@ builder.Services.AddScoped<IPeriodoAcademicoRepository, PeriodoAcademicoReposito
 builder.Services.AddScoped<IEstudianteRepository, EstudianteRepository>();
 builder.Services.AddScoped<IMatriculaRepository, MatriculaRepository>();
 builder.Services.AddScoped<IPlanEstudioRepository, PlanEstudioRepository>();
+builder.Services.AddScoped<IAsignaturaRepository, AsignaturaRepository>();
+builder.Services.AddScoped<IHistorialAcademicoRepository, HistorialAcademicoRepository>();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

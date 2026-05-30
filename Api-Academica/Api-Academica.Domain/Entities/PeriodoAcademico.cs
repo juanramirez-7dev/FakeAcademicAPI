@@ -16,5 +16,7 @@ namespace Api_Academica.Domain.Entities
 
         public ICollection<Matricula> Matriculas { get; set; } = new List<Matricula>();
 
+        public ICollection<HistorialAcademico> HistorialAcademicos { get; set; } = new List<HistorialAcademico>();
+
     }
 }

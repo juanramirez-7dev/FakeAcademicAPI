@@ -11,11 +11,12 @@ namespace Api_Academica.Domain.Services
     public class AsignaturaService : IAsignaturaService
     {
         private readonly IAsignaturaRepository _repository;
+        private readonly IHistorialAcademicoRepository _historialAcademicoRepository;
 
-        public AsignaturaService(IAsignaturaRepository repository)
+        public AsignaturaService(IAsignaturaRepository repository, IHistorialAcademicoRepository historialAcademicoRepository)
         {
             _repository = repository;
-
+            _historialAcademicoRepository = historialAcademicoRepository;
         }
 
 
@@ -74,6 +75,12 @@ namespace Api_Academica.Domain.Services
             {
                 throw new KeyNotFoundException(
                     $"No se encontró una asignatura con el id:{id}");
+            }
+            var historialAcademicos = await _historialAcademicoRepository.GetByAsignaturaIdAsync(asignatura.AsignaturaId);
+
+            if (historialAcademicos.Any())
+            {
+                throw new InvalidOperationException($"No se puede borrar una asignatura con historial académico");
             }
 
             await _repository.DeleteAsync(id);
