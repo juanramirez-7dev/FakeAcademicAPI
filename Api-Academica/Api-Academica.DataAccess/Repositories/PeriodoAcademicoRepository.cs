@@ -36,6 +36,15 @@ namespace Api_Academica.DataAccess.Repositories
             _context.PeriodosAcademicos.Update(entity);
             await _context.SaveChangesAsync();
         }
-        
+
+        public async Task<PeriodoAcademico?> GetByAnioSemestreAsync(int anio, int semestre)
+
+        {
+            return await _context.PeriodosAcademicos
+                .FirstOrDefaultAsync(p =>
+                    p.Anio == anio &&
+                    p.Semestre == semestre);
+        }
+
     }
 }

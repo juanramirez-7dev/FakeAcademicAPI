@@ -18,6 +18,8 @@ namespace Api_Academica.Domain.Interfaces.Repositories
 
         Task<Programa?> GetByNameAsync(string name);
 
+        Task<Programa?> GetByCodeAsync(string code);
+
         Task<IEnumerable<Programa>> GetByFacultadIdAsync(int id);
 
 

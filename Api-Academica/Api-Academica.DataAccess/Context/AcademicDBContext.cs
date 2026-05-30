@@ -61,6 +61,8 @@ namespace Api_Academica.DataAccess.Context
                    .IsRequired();
                 entity.Property(e => e.Semestres)
                  .IsRequired();
+                entity.HasIndex(e => e.Codigo)
+                 .IsUnique();
                 entity.HasOne(p => p.Facultad).
                 WithMany(f => f.Programas).
                 HasForeignKey(p => p.FacultadId).
@@ -99,6 +101,12 @@ namespace Api_Academica.DataAccess.Context
                    .HasColumnType("date");
                 entity.Property(e => e.Estado)
                     .HasMaxLength(20);
+                entity.HasIndex(e => e.CodigoEstudiantil)
+                    .IsUnique();
+                entity.HasIndex(e => e.NumeroDocumento)
+                    .IsUnique();
+                entity.HasIndex(e => e.CorreoInstitucional)
+                    .IsUnique();
                 entity.HasOne(e => e.Programa)
                    .WithMany(p => p.Estudiantes)
                    .HasForeignKey(e => e.ProgramaId)
@@ -122,6 +130,11 @@ namespace Api_Academica.DataAccess.Context
                 entity.Property(e => e.FechaFin)
                    .IsRequired()
                    .HasColumnType("date");
+                entity.HasIndex(e => new
+                {
+                    e.Anio,
+                    e.Semestre
+                }).IsUnique();
                 entity.Property(e => e.Estado)
                     .HasMaxLength(20);
             });

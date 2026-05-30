@@ -11,10 +11,12 @@ namespace Api_Academica.Domain.Services
     public class PlanEstudioService:IPlanEstudioService
     {
         private readonly IPlanEstudioRepository _repository;
+        private readonly IProgramaRepository _programaRepository;
 
-        public PlanEstudioService(IPlanEstudioRepository repository)
+        public PlanEstudioService(IPlanEstudioRepository repository, IProgramaRepository programaRepository)
         {
             _repository = repository;
+            _programaRepository = programaRepository;
         }
 
 
@@ -33,7 +35,19 @@ namespace Api_Academica.Domain.Services
         }
         public async Task<PlanEstudio> CreateAsync(PlanEstudio entity)
         {
-           
+            var programa = await _programaRepository.GetByIdAsync(entity.ProgramaId);
+
+            if (programa == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No se encontró un programa con el id: {entity.ProgramaId}");
+            }
+            if (string.IsNullOrWhiteSpace(entity.Version))
+            {
+                throw new InvalidOperationException(
+                    "La versión del plan de estudio es obligatoria");
+            }
+            entity.Estado = EstadoPlanEstudio.Activo;
             return await _repository.CreateAsync(entity);
         }
         public async Task UpdateAsync(PlanEstudio entity, int id)
@@ -43,9 +57,11 @@ namespace Api_Academica.Domain.Services
             {
                 throw new KeyNotFoundException($"No se encontro un plan de estudio con el id:{id}");
             }
-            
-            await _repository.UpdateAsync(planEstudio);
+                throw new InvalidOperationException(
+             "No se permite modificar un plan de estudio. Solo se puede actualizar su estado.");
         }
+
+       
         
 
         public async Task UpdateStateAsync(int id, EstadoPlanEstudio estado)

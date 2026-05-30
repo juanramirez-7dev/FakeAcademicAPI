@@ -41,7 +41,15 @@ namespace Api_Academica.DataAccess.Repositories
         {
             return await _context.Matriculas.Where(e => e.EstudianteId == id).ToListAsync();
         }
-
+        public async Task<Matricula?> GetByEstudiantePeriodoAsync(int estudianteId, int periodoId)
+   
+    
+        {
+            return await _context.Matriculas
+                .FirstOrDefaultAsync(m =>
+                    m.EstudianteId == estudianteId &&
+                    m.PeriodoId == periodoId);
+        }
 
     }
 }

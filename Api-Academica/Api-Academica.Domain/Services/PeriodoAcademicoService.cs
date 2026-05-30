@@ -33,7 +33,27 @@ namespace Api_Academica.Domain.Services
         }
         public async Task<PeriodoAcademico> CreateAsync(PeriodoAcademico entity)
         {
-          
+            if (entity.Semestre != 1 && entity.Semestre != 2)
+            {
+                throw new InvalidOperationException(
+                    "El semestre debe ser 1 o 2");
+            }
+            if (entity.FechaInicio >= entity.FechaFin)
+            {
+                throw new InvalidOperationException(
+                    "La fecha de inicio debe ser anterior a la fecha de fin");
+            }
+            var periodoExistente =
+                await _repository.GetByAnioSemestreAsync(
+                entity.Anio,
+                entity.Semestre);
+
+            if (periodoExistente != null)
+            {
+                throw new InvalidOperationException(
+                    $"Ya existe el período {entity.Anio}-{entity.Semestre}");
+            }
+            entity.Estado = EstadoPeriodoAcademico.Abierto;
             return await _repository.CreateAsync(entity);
         }
 
@@ -44,6 +64,7 @@ namespace Api_Academica.Domain.Services
             {
                 throw new KeyNotFoundException($"No se encontro un periodo acádemico con el id:{id}");
             }
+           
             await _repository.UpdateAsync(periodoAcademico);
         }
 
