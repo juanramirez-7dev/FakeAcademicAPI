@@ -38,6 +38,16 @@ namespace Api_Academica.Domain.Services
             return estudiante;
         }
 
+        public async Task<Estudiante> GetByDocumentAsync(string document)
+        {
+            var estudiante = await _repository.GetByDocumentAsync(document);
+            if (estudiante == null)
+            {
+                throw new KeyNotFoundException($"El estudiante con el documento {document} no se encontro");
+            }
+            return estudiante;
+        }
+
         public async Task<Estudiante> CreateAsync(Estudiante entity)
         {
             var programa = await _programaRepository.GetByIdAsync(entity.ProgramaId);
