@@ -18,6 +18,9 @@ namespace Api_Academica.Domain.Interfaces.Repositories
         Task UpdateAsync(Estudiante entity);
 
         Task<IEnumerable<Estudiante>> GetByProgramaIdAsync(int id);
-        
+        Task<Estudiante?> GetByNumeroDocumentoAsync(string documento);
+        Task<Estudiante?> GetByCorreoInstitucionalAsync(string correo);
+        Task<Estudiante?> GetByCodigoEstudiantilAsync(string codigo);
+
     }
 }
