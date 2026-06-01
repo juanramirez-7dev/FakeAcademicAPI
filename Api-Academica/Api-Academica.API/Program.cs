@@ -1,5 +1,6 @@
 using Api_Academica.DataAccess.Context;
 using Api_Academica.DataAccess.Repositories;
+using Api_Academica.DataAccess.Seeders;
 using Api_Academica.Domain.Interfaces.Repositories;
 using Api_Academica.Domain.Interfaces.Services;
 using Api_Academica.Domain.Services;
@@ -34,6 +35,13 @@ builder.Services.AddScoped<IHistorialAcademicoRepository, HistorialAcademicoRepo
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AcademicDBContext>();
+    context.Database.Migrate();
+    AcademicDataSeeder.Seed(context);
+}
 
 if (app.Environment.IsDevelopment())
 {
