@@ -12,5 +12,8 @@ namespace Api_Academica.Domain.Interfaces.Repositories
         Task<PeriodoAcademico> CreateAsync(PeriodoAcademico entity);
 
         Task UpdateAsync(PeriodoAcademico entity);
+        Task<PeriodoAcademico?> GetByAnioSemestreAsync(int anio, int semestre);
+
+
     }
 }

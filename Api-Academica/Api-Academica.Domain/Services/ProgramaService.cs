@@ -13,12 +13,16 @@ namespace Api_Academica.Domain.Services
     {
         private readonly IProgramaRepository _repository;
         private readonly IEstudianteRepository _estudianteRepository;
-        private readonly IPlanEstudioRepository _planestudioRepository;   
-        public ProgramaService(IProgramaRepository repository, IEstudianteRepository estudianteRepository, IPlanEstudioRepository planestudioRepository )
+        private readonly IPlanEstudioRepository _planestudioRepository;
+        private readonly IFacultadRepository _facultadRepository;
+        public ProgramaService(IProgramaRepository repository, IEstudianteRepository estudianteRepository,
+            IPlanEstudioRepository planestudioRepository,IFacultadRepository facultadRepository )
         {
             _repository = repository;
             _estudianteRepository = estudianteRepository;
             _planestudioRepository = planestudioRepository;
+            _facultadRepository = facultadRepository;
+
         }
 
         public async Task<IEnumerable<Programa>> GetAllAsync()
@@ -41,6 +45,31 @@ namespace Api_Academica.Domain.Services
             if (programa != null)
             {
                 throw new InvalidOperationException($"Ya existe un programa con el nombre: {entity.Nombre}");
+            }
+            
+            var programaCodigo = await _repository.GetByCodeAsync(entity.Codigo);
+
+            if (programaCodigo != null)
+            {
+                throw new InvalidOperationException(
+                    $"Ya existe un programa con el código: {entity.Codigo}");
+            }
+            var facultad = await _facultadRepository.GetByIdAsync(entity.FacultadId);
+            if (facultad == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No se encontró una facultad con el id: {entity.FacultadId}");
+            }
+            if (entity.CreditosTotales <= 0)
+            {
+                throw new InvalidOperationException(
+                    "Los créditos totales deben ser mayores que cero");
+            }
+
+            if (entity.Semestres <= 0)
+            {
+                throw new InvalidOperationException(
+                    "La cantidad de semestres debe ser mayor que cero");
             }
             return await _repository.CreateAsync(entity);
         }
@@ -78,6 +107,34 @@ namespace Api_Academica.Domain.Services
             {
                 throw new InvalidOperationException($"Ya existe un programa con el nombre: {id}");
             }
+            var facultad = await _facultadRepository.GetByIdAsync(entity.FacultadId);
+
+            if (facultad == null)
+            {
+                throw new KeyNotFoundException(
+                    $"No se encontró una facultad con el id: {entity.FacultadId}");
+            }
+
+            var programaCodigo = await _repository.GetByCodeAsync(entity.Codigo);
+
+            if (programaCodigo != null &&
+                programaCodigo.ProgramaId != id)
+            {
+                throw new InvalidOperationException(
+                    $"Ya existe un programa con el código: {entity.Codigo}");
+            }
+            if (entity.CreditosTotales <= 0)
+            {
+                throw new InvalidOperationException(
+                    "Los créditos totales deben ser mayores que cero");
+            }
+
+            if (entity.Semestres <= 0)
+            {
+                throw new InvalidOperationException(
+                    "La cantidad de semestres debe ser mayor que cero");
+            }
+
             programa.Codigo= entity.Codigo;
             programa.Nombre= entity.Nombre;
             programa.Semestres= entity.Semestres;

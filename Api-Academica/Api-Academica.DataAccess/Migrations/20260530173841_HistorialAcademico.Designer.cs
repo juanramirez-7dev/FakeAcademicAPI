@@ -4,6 +4,7 @@ using Api_Academica.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api_Academica.DataAccess.Migrations
 {
     [DbContext(typeof(AcademicDBContext))]
-    partial class AcademicDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260530173841_HistorialAcademico")]
+    partial class HistorialAcademico
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,15 +118,6 @@ namespace Api_Academica.DataAccess.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("EstudianteId");
-
-                    b.HasIndex("CodigoEstudiantil")
-                        .IsUnique();
-
-                    b.HasIndex("CorreoInstitucional")
-                        .IsUnique();
-
-                    b.HasIndex("NumeroDocumento")
-                        .IsUnique();
 
                     b.HasIndex("ProgramaId");
 
@@ -252,9 +246,6 @@ namespace Api_Academica.DataAccess.Migrations
 
                     b.HasKey("PeriodoId");
 
-                    b.HasIndex("Anio", "Semestre")
-                        .IsUnique();
-
                     b.ToTable("PeriodosAcademicos");
                 });
 
@@ -319,9 +310,6 @@ namespace Api_Academica.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ProgramaId");
-
-                    b.HasIndex("Codigo")
-                        .IsUnique();
 
                     b.HasIndex("FacultadId");
 

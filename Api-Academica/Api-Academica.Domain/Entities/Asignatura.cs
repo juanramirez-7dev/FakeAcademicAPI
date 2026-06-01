@@ -15,6 +15,7 @@ namespace Api_Academica.Domain.Entities
         public int SemestreRecomendado { get; set; }
         public string Tipo { get; set; } = string.Empty;
         public PlanEstudio PlanEstudio { get; set; } = null!;
-        
+        public ICollection<HistorialAcademico> HistorialAcademicos { get; set; } = new List<HistorialAcademico>();
+
     }
 }

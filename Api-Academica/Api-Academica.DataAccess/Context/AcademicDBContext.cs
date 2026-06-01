@@ -26,6 +26,9 @@ namespace Api_Academica.DataAccess.Context
 
         public DbSet<Asignatura> Asignaturas { get; set; }
 
+        public DbSet<HistorialAcademico> HistorialAcademicos { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -58,6 +61,8 @@ namespace Api_Academica.DataAccess.Context
                    .IsRequired();
                 entity.Property(e => e.Semestres)
                  .IsRequired();
+                entity.HasIndex(e => e.Codigo)
+                 .IsUnique();
                 entity.HasOne(p => p.Facultad).
                 WithMany(f => f.Programas).
                 HasForeignKey(p => p.FacultadId).
@@ -96,6 +101,12 @@ namespace Api_Academica.DataAccess.Context
                    .HasColumnType("date");
                 entity.Property(e => e.Estado)
                     .HasMaxLength(20);
+                entity.HasIndex(e => e.CodigoEstudiantil)
+                    .IsUnique();
+                entity.HasIndex(e => e.NumeroDocumento)
+                    .IsUnique();
+                entity.HasIndex(e => e.CorreoInstitucional)
+                    .IsUnique();
                 entity.HasOne(e => e.Programa)
                    .WithMany(p => p.Estudiantes)
                    .HasForeignKey(e => e.ProgramaId)
@@ -119,6 +130,11 @@ namespace Api_Academica.DataAccess.Context
                 entity.Property(e => e.FechaFin)
                    .IsRequired()
                    .HasColumnType("date");
+                entity.HasIndex(e => new
+                {
+                    e.Anio,
+                    e.Semestre
+                }).IsUnique();
                 entity.Property(e => e.Estado)
                     .HasMaxLength(20);
             });
@@ -192,6 +208,46 @@ namespace Api_Academica.DataAccess.Context
                     .HasForeignKey(e => e.PlanId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+
+            modelBuilder.Entity<HistorialAcademico>(entity =>
+            {
+                entity.HasKey(e => e.HistorialId);
+
+                entity.Property(e => e.NotaFinal)
+                    .HasColumnType("decimal(3,2)")
+                    .IsRequired();
+
+                entity.Property(e => e.Estado)
+                    .IsRequired();
+
+                entity.Property(e => e.CreditosAprobados)
+                    .IsRequired();
+
+                entity.HasOne(e => e.Estudiante)
+                    .WithMany(e => e.HistorialAcademicos)
+                    .HasForeignKey(e => e.EstudianteId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Asignatura)
+                    .WithMany(a => a.HistorialAcademicos)
+                    .HasForeignKey(e => e.AsignaturaId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.PeriodoAcademico)
+                    .WithMany(p => p.HistorialAcademicos)
+                    .HasForeignKey(e => e.PeriodoId)
+                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasIndex(e => new
+                {
+                    e.EstudianteId,
+                    e.AsignaturaId,
+                    e.PeriodoId
+                }).IsUnique();
+            });
+
+
+
 
 
 

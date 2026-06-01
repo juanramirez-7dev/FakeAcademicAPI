@@ -52,6 +52,11 @@ namespace Api_Academica.DataAccess.Repositories
             return await _context.Programas.FirstOrDefaultAsync(e => e.Nombre == name);
         }
 
+        public async Task<Programa?> GetByCodeAsync(string code)
+        {
+            return await _context.Programas.FirstOrDefaultAsync(e => e.Codigo == code);
+        }
+
         public async Task<IEnumerable<Programa>> GetByFacultadIdAsync(int id)
         {
             return await _context.Programas.Where(e => e.FacultadId == id).ToListAsync();

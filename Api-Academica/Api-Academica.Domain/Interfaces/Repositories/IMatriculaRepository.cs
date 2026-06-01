@@ -14,6 +14,11 @@ namespace Api_Academica.Domain.Interfaces.Repositories
       
         Task<IEnumerable<Matricula>> GetByEstudianteIdAsync(int id);
 
+        Task<Matricula?> GetByEstudiantePeriodoAsync(int estudianteId, int periodoId);
+
+        
+       
+
 
 
     }

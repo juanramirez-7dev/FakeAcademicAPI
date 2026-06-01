@@ -56,6 +56,20 @@ namespace Api_Academica.DataAccess.Repositories
             return await _context.Estudiantes.Where(e => e.ProgramaId == id).ToListAsync();
         }
 
+        public async Task<Estudiante?> GetByCodigoEstudiantilAsync(string codigo)
+        {
+            return await _context.Estudiantes.FirstOrDefaultAsync(e => e.CodigoEstudiantil == codigo);
+        }
+
+        public async Task<Estudiante?> GetByCorreoInstitucionalAsync(string correo)
+        {
+            return await _context.Estudiantes.FirstOrDefaultAsync(e => e.CorreoInstitucional== correo);
+        }
+
+        public async Task<Estudiante?> GetByNumeroDocumentoAsync(string documento)
+        {
+            return await _context.Estudiantes.FirstOrDefaultAsync(e => e.NumeroDocumento == documento);
+        }
 
 
     }
