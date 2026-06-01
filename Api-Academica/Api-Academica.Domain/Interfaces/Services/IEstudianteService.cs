@@ -10,6 +10,7 @@ namespace Api_Academica.Domain.Interfaces.Services
     {
         Task<IEnumerable<Estudiante>> GetAllAsync();
         Task<Estudiante?> GetByIdAsync(int id);
+        Task<Estudiante> GetByDocumentAsync(string document);
         Task<Estudiante> CreateAsync(Estudiante entity);
         Task UpdateAsync(Estudiante entity, int id);
         Task DeleteAsync(int id);

@@ -9,6 +9,7 @@ namespace Api_Academica.Domain.Interfaces.Repositories
     {
         Task<IEnumerable<Estudiante>> GetAllAsync();
         Task<Estudiante?> GetByIdAsync(int id);
+        Task<Estudiante?> GetByDocumentAsync(string document);
 
         Task<Estudiante> CreateAsync(Estudiante entity);
 
@@ -17,5 +18,6 @@ namespace Api_Academica.Domain.Interfaces.Repositories
         Task UpdateAsync(Estudiante entity);
 
         Task<IEnumerable<Estudiante>> GetByProgramaIdAsync(int id);
+        
     }
 }

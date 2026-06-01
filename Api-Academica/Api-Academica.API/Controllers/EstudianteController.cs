@@ -4,6 +4,7 @@ using Api_Academica.Domain.Entities;
 using Api_Academica.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 
 namespace Api_Academica.API.Controllers
 {
@@ -51,6 +52,34 @@ namespace Api_Academica.API.Controllers
             try
             {
                 var estudiante = await _service.GetByIdAsync(id);
+                return Ok(new EstudianteResponseDTO
+                {
+                    EstudianteId = estudiante.EstudianteId,
+                    ProgramaId = estudiante.ProgramaId,
+                    CodigoEstudiantil = estudiante.CodigoEstudiantil,
+                    TipoDocumento = estudiante.TipoDocumento,
+                    NumeroDocumento = estudiante.NumeroDocumento,
+                    Nombres = estudiante.Nombres,
+                    Apellidos = estudiante.Apellidos,
+                    CorreoInstitucional = estudiante.CorreoInstitucional,
+                    Telefono = estudiante.Telefono,
+                    FechaIngreso = estudiante.FechaIngreso,
+                    Estado = estudiante.Estado
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("Document/{documento}")]
+
+        public async Task<ActionResult<EstudianteResponseDTO>> GetByDocument(string documento)
+        {
+            try
+            {
+                var estudiante = await _service.GetByDocumentAsync(documento);
                 return Ok(new EstudianteResponseDTO
                 {
                     EstudianteId = estudiante.EstudianteId,
