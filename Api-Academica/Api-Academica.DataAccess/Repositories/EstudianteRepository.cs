@@ -27,7 +27,10 @@ namespace Api_Academica.DataAccess.Repositories
         }
         public async Task<Estudiante?> GetByDocumentAsync(string document)
         {
-            return await _context.Estudiantes.FirstOrDefaultAsync(e => e.NumeroDocumento == document);
+            return await _context.Estudiantes
+        .Include(e => e.Programa)
+        .ThenInclude(p => p.Facultad)
+        .FirstOrDefaultAsync(e => e.NumeroDocumento == document);
         }
         public async Task<Estudiante> CreateAsync(Estudiante entity)
         {

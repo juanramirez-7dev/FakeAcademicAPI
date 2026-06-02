@@ -60,6 +60,13 @@ namespace Api_Academica.DataAccess.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<HistorialAcademico>> GetByDocumentAsync(string documento)
+        {
+            return await _context.HistorialAcademicos
+                .Where(h => h.Estudiante.NumeroDocumento == documento)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<HistorialAcademico>> GetByAsignaturaIdAsync(int asignaturaId)
         {
             return await _context.HistorialAcademicos

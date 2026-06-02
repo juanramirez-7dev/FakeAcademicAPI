@@ -170,6 +170,63 @@ namespace Api_Academica.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{estudianteId}/HistorialAcademico")]
+        public async Task<ActionResult<List<HistorialAcademicoResponseDTO>>> GetHistorialAcademico(int estudianteId)
+        {
+            try
+            {
+                var historial = await _service.GetByEstudianteIdAsync(estudianteId);
+                var response = historial.Select(h => new HistorialAcademicoResponseDTO
+                {
+                    HistorialId = h.HistorialId,
+                    EstudianteId = h.EstudianteId,
+                    AsignaturaId = h.AsignaturaId,
+                    PeriodoId = h.PeriodoId,
+                    NotaFinal = h.NotaFinal,
+                    CreditosAprobados = h.CreditosAprobados,
+                    Estado = h.Estado
+                }).ToList();
+
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("Document/{documento}/HistorialAcademico")]
+        public async Task<ActionResult<IEnumerable<HistorialAcademicoResponseDTO>>> GetHistorialAcademicoByDocument(string documento)
+        {
+            try
+            {
+                var historial = await _service.GetByDocumentAsync(documento);
+                var response = historial.Select(h => new HistorialAcademicoResponseDTO
+                {
+                    HistorialId = h.HistorialId,
+                    EstudianteId = h.EstudianteId,
+                    AsignaturaId = h.AsignaturaId,
+                    PeriodoId = h.PeriodoId,
+                    NotaFinal = h.NotaFinal,
+                    CreditosAprobados = h.CreditosAprobados,
+                    Estado = h.Estado
+                }).ToList();
+
+                return Ok(response);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
     

@@ -1,5 +1,6 @@
 ﻿using Api_Academica.API.DTOs.Request;
 using Api_Academica.API.DTOs.Response;
+using Api_Academica.API.DTOs.Response.EstudianteCompletoDto;
 using Api_Academica.Domain.Entities;
 using Api_Academica.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
@@ -74,13 +75,13 @@ namespace Api_Academica.API.Controllers
         }
 
         [HttpGet("Document/{documento}")]
-
-        public async Task<ActionResult<EstudianteResponseDTO>> GetByDocument(string documento)
+        public async Task<ActionResult<EstudianteDetalleResponseDTO>> GetByDocument(string documento)
         {
             try
             {
                 var estudiante = await _service.GetByDocumentAsync(documento);
-                return Ok(new EstudianteResponseDTO
+
+                var response = new EstudianteDetalleResponseDTO
                 {
                     EstudianteId = estudiante.EstudianteId,
                     ProgramaId = estudiante.ProgramaId,
@@ -92,8 +93,25 @@ namespace Api_Academica.API.Controllers
                     CorreoInstitucional = estudiante.CorreoInstitucional,
                     Telefono = estudiante.Telefono,
                     FechaIngreso = estudiante.FechaIngreso,
-                    Estado = estudiante.Estado
-                });
+                    Estado = estudiante.Estado,
+
+                    Programa = new ProgramaDetalleResponseDTO
+                    {
+                        ProgramaId = estudiante.Programa.ProgramaId,
+                        Codigo = estudiante.Programa.Codigo,
+                        Nombre = estudiante.Programa.Nombre,
+                        Nivel = estudiante.Programa.Nivel,
+
+                        Facultad = new FacultadDetalleResponseDTO
+                        {
+                            Id = estudiante.Programa.Facultad.Id,
+                            Codigo = estudiante.Programa.Facultad.Codigo,
+                            Nombre = estudiante.Programa.Facultad.Nombre
+                        }
+                    },
+                };
+
+                return Ok(response);
             }
             catch (KeyNotFoundException ex)
             {
@@ -226,6 +244,7 @@ namespace Api_Academica.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 
 
 

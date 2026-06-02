@@ -14,6 +14,7 @@ namespace Api_Academica.Domain.Interfaces.Repositories
         Task DeleteAsync(int id);
         Task<IEnumerable<HistorialAcademico>> GetByEstudianteIdAsync(int estudianteId);
         Task<IEnumerable<HistorialAcademico>> GetByAsignaturaIdAsync(int asignaturaId);
+        Task<IEnumerable<HistorialAcademico>> GetByDocumentAsync(string documento);
 
         Task<HistorialAcademico?> GetByEstudianteAsignaturaPeriodoAsync(int estudianteId, int asignaturaId, int periodoId);
 

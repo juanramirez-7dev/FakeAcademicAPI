@@ -72,7 +72,7 @@ namespace Api_Academica.Domain.Services
                 throw new InvalidOperationException(
                     "La nota debe estar entre 0 y 5");
 
-               
+
             }
             if (entity.CreditosAprobados < 0)
             {
@@ -95,7 +95,7 @@ namespace Api_Academica.Domain.Services
                 throw new InvalidOperationException(
                     "Ya existe un historial académico para este estudiante, asignatura y período");
             }
-            
+
             if (entity.Estado == EstadoHistorialAcademico.Aprobada &&
                 entity.CreditosAprobados != asignatura.Creditos)
             {
@@ -211,10 +211,46 @@ namespace Api_Academica.Domain.Services
                 "No se permite eliminar historiales académicos");
         }
 
+        public async Task<List<HistorialAcademico>> GetByEstudianteIdAsync(int estudianteId)
+        {
+            var estudiante = await _estudianteRepository.GetByIdAsync(estudianteId);
+            if (estudiante == null)
+            {
+                throw new KeyNotFoundException($"No se encontró un estudiante con el id: {estudianteId}");
+            }
+            var historial = await _repository.GetByEstudianteIdAsync(estudianteId);
+
+                return historial.Select(h => new HistorialAcademico
+                {
+                    HistorialId = h.HistorialId,
+                    EstudianteId = h.EstudianteId,
+                    AsignaturaId = h.AsignaturaId,
+                    PeriodoId = h.PeriodoId,
+                    NotaFinal = h.NotaFinal,
+                    Estado = h.Estado,
+                    CreditosAprobados = h.CreditosAprobados
+                }).ToList();
+        }
+        public async Task<IEnumerable<HistorialAcademico>> GetByDocumentAsync(string documento)
+        {   
+            if (documento == null)
+            {
+                throw new ArgumentNullException("El documento no puede ser vacio");
+            }
+            var historial = await _repository.GetByDocumentAsync(documento);
+
+            return historial.Select(h => new HistorialAcademico
+            {
+                HistorialId = h.HistorialId,
+                EstudianteId = h.EstudianteId,
+                AsignaturaId = h.AsignaturaId,
+                PeriodoId = h.PeriodoId,
+                NotaFinal = h.NotaFinal,
+                Estado = h.Estado,
+                CreditosAprobados = h.CreditosAprobados
+            });
+        }
     }
-
-    
-
 }
 
 

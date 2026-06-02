@@ -14,5 +14,7 @@ namespace Api_Academica.Domain.Interfaces.Services
         Task UpdateAsync(HistorialAcademico entity, int id);
         Task UpdateStateAsync(int id, EstadoHistorialAcademico estado);
         Task DeleteAsync(int id);
+        Task<List<HistorialAcademico>> GetByEstudianteIdAsync(int estudianteId);
+        Task<IEnumerable<HistorialAcademico>> GetByDocumentAsync(string documento);
     }
 }
