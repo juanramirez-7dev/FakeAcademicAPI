@@ -237,6 +237,11 @@ namespace Api_Academica.Domain.Services
             {
                 throw new ArgumentNullException("El documento no puede ser vacio");
             }
+            var estudiante = await _estudianteRepository.GetByDocumentAsync(documento);
+            if (estudiante == null)
+            {
+                throw new KeyNotFoundException($"No se encontró un estudiante con el documento: {documento}");
+            }
             var historial = await _repository.GetByDocumentAsync(documento);
 
             return historial.Select(h => new HistorialAcademico
